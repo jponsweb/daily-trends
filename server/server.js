@@ -5,7 +5,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 
 // Get our API routes
-const api = require('./routes/api');
+const articlesRouter = require("./routes/articles");
 
 const app = express();
 
@@ -18,12 +18,10 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
-})
-
+});
 
 // Set our api routes
-app.use('/', api);
-
+app.use("/api/articles", articlesRouter);
 
 /**
  * Get port from environment and store in Express.
