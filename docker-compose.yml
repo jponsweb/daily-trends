@@ -1,16 +1,16 @@
-version: '3.0'
+version: "3"
 
 # Define the services/containers to be run
 services:
   angular: # name of the first service
     build: webapp # specify the directory of the Dockerfile
     ports:
-      - "4201:4200" # specify port forewarding
+      - "4200:4200" # specify port forewarding
 
   express: #name of the second service
     build: server # specify the directory of the Dockerfile
     ports:
-      - "3001:3000" #specify ports forewarding
+      - "3000:3000" #specify ports forewarding
     links:
       - database # link this service to the database service
 

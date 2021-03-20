@@ -7,7 +7,15 @@ const router = new express.Router()
 const dbHost = 'mongodb://database/daily-trends';
 
 // Connect to mongodb
-mongoose.connect(dbHost);
+mongoose.connect(dbHost, {
+    useNewUrlParser:true,
+    useUnifiedTopology: true
+});
+
+router.get('/', (req, res) => {
+    res.send('api works');
+});
+
 
 /* GET all articles. */
 router.get('/articles', (req, res) => {
