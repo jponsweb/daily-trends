@@ -1,4 +1,4 @@
-FROM node:10-slim AS server
+FROM node:14-slim AS server
 
 # Create a directory where our app will be placed
 RUN mkdir -p /src/app

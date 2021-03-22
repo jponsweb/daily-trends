@@ -9,6 +9,7 @@ import { AddArticleComponent } from './articles/add-article/add-article.componen
 import { DeleteArticleComponent } from './articles/delete-article/delete-article.component';
 import { UpdateArticleComponent } from './articles/update-article/update-article.component';
 import { ArticlesService } from "./services/articles.service";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ArticlesService } from "./services/articles.service";
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [ArticlesService],
   bootstrap: [AppComponent]

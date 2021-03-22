@@ -4,6 +4,9 @@ version: "3"
 services:
   angular: # name of the first service
     build: webapp # specify the directory of the Dockerfile
+    volumes:
+      - ./webapp:/app
+      - ./webapp/node_modules:/app/node_modules
     ports:
       - "4200:4200" # specify port forewarding
 

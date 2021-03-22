@@ -1,4 +1,4 @@
-FROM node:10-slim AS webapp
+FROM node:14-slim AS webapp
 
 # Create a directory where our app will be placed
 RUN mkdir -p /app

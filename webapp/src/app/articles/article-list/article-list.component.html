@@ -1,1 +1,31 @@
-<p>article-list works!</p>
+<hr>
+<div class="site-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="d-block d-md-flex podcast-entry bg-white mb-5 aos-init aos-animate"
+          *ngFor="let article of articles;let i=index" data-aos="fade-up">
+          <div class="image" [style.backgroundImage]="'url('+ article.image +') ' "></div>
+          <div class="text">
+            <h3 class="font-weight-dark">
+              <a [routerLink]="[article.id]"> {{ article.title }}</a>
+            </h3>
+            <div class="text-white mb-3">
+              <span class="text-black-opacity-05">
+                <small>
+                  <a>by {{article.publisher}}</a>
+                  <span class="sep"> /</span>{{article.source}}
+                </small>
+              </span>
+            </div>
+
+            <div class="desc">
+              <p>{{article.body |slice:0: 170 }}
+                <a [routerLink]="[article.id]">{{article.body.length > 170 ? '...Read More' : ''}}</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
