@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Article } from "../articles/article.model";
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import {environment} from '../../environments/environment'
+import { HttpErrorHandler, HandleError } from '../services/http-error-handler.service';
 
 const API_URL = environment.apiUrl;
 @Injectable({
@@ -15,8 +16,13 @@ export class ArticlesService {
  
   private articleUpdated = new Subject<Article[]>();
   public err = new BehaviorSubject<any>(null);
+  private handleError: any;
 
-  constructor(private http: HttpClient) { }
+constructor(
+    private http: HttpClient,
+    httpErrorHandler: HttpErrorHandler) {
+    this.handleError = httpErrorHandler.createHandleError('ArticlesService');
+  }
 
   getArticleUpdateListener() {
     return this.articleUpdated.asObservable();
@@ -42,51 +48,31 @@ export class ArticlesService {
       }
   }
 
-  getArticles() {
-    this.http.get<{ message: string; articles: any }>(API_URL)
-      .pipe(
-        map(articleData => {
-          return articleData.articles.map(article => {
-            return {
-              id: article._id,
-              title: article.title,
-              body: article.body,
-              image: article.image,
-              source: article.source,
-              publisher: article.publisher
-            };
-          });
-        })
-      )
-      .subscribe(transformedArticles => {
-        this.err.next(null)
-
-        this.article = transformedArticles;
-        this.articleUpdated.next([...this.article]);
-      },
-        err => {
-          this.err.next(err)
-        });
+  getArticles(): Observable<Article[]> {
+    return this.http.get<Article[]>(API_URL)
+     .pipe(
+        catchError(this.handleError('getArticles', []))
+      );
   }
 
-  getArticle(id: string) {
+  getArticle(_id: string) {
     return this.http.get<{
-      id: string,
+      _id: string,
       title: string,
       body: string,
       image: string,
       source: string,
       publisher: string
     }>(
-      API_URL +"/" + id
+      API_URL +"/" + _id
     );
   }
 
-  updatePost(id: string, title: string, body: string, image: string, source:string, publisher: string) {
+  updatePost(_id: string, title: string, body: string, image: string, source:string, publisher: string) {
     let articleData: Article | FormData;
 
     articleData = {
-      id: id,
+      _id: _id,
       title: title,
       body: body,
       image: image,
@@ -95,7 +81,7 @@ export class ArticlesService {
     };
 
     this.http
-      .put(API_URL + "/" +id, articleData)
+      .put(API_URL + "/" +_id, articleData)
       .subscribe(response => {
         this.err.next(null)
       },
@@ -109,7 +95,7 @@ export class ArticlesService {
       .delete(API_URL +"/"+ articleId)
       .subscribe((data) => {
         this.err.next(null)
-        const updatedArticles = this.article.filter(article => article.id !== articleId);
+        const updatedArticles = this.article.filter(article => article._id !== articleId);
         this.article = updatedArticles;
         this.articleUpdated.next([...this.article]);
       },

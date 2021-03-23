@@ -8,7 +8,7 @@
           <div class="image" [style.backgroundImage]="'url('+ article.image +') ' "></div>
           <div class="text">
             <h3 class="font-weight-dark">
-              <a [routerLink]="[article.id]"> {{ article.title }}</a>
+              <a [routerLink]="[article._id]"> {{ article.title }}</a>
             </h3>
             <div class="text-white mb-3">
               <span class="text-black-opacity-05">
@@ -21,7 +21,7 @@
 
             <div class="desc">
               <p>{{article.body |slice:0: 170 }}
-                <a [routerLink]="[article.id]">{{article.body.length > 170 ? '...Read More' : ''}}</a></p>
+                <a [routerLink]="[article._id]">{{article.body.length > 170 ? '...Read More' : ''}}</a></p>
             </div>
           </div>
         </div>

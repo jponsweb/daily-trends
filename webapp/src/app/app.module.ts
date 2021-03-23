@@ -10,6 +10,9 @@ import { DeleteArticleComponent } from './articles/delete-article/delete-article
 import { UpdateArticleComponent } from './articles/update-article/update-article.component';
 import { ArticlesService } from "./services/articles.service";
 import { HttpClientModule } from '@angular/common/http';
+import { HttpErrorHandler } from './services/http-error-handler.service';
+import { MessageService } from './services/message.service';
+import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
 
 @NgModule({
   declarations: [
@@ -18,14 +21,15 @@ import { HttpClientModule } from '@angular/common/http';
     ArticleListComponent,
     AddArticleComponent,
     DeleteArticleComponent,
-    UpdateArticleComponent
+    UpdateArticleComponent,
+    ArticleDetailComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [ArticlesService],
+  providers: [ArticlesService,HttpErrorHandler,MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
